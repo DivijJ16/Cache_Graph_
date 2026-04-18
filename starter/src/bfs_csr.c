@@ -3,13 +3,17 @@
 #include "graph.h"
 
 int bfs_csr(CSRGraph* g, int source, int* dist) {
+  if(!g) {
+    return 0;
+  }
+  
   int n = g->num_vertices;
     
   for (int i = 0; i < n; i++) {
     dist[i] = -1;
   }
 
-  int *arr = (int *)malloc((size_t)n * sizeof(int));
+  int *arr = (int *)malloc(n*sizeof(int));
 
   int front = 0, end = 0;
   arr[end] = source;
