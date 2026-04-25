@@ -3,17 +3,25 @@
 #include <stdlib.h>
 
 int bfs_pointer(Graph *g, int source, int *dist) {
-  if(!g) {
+  if(!g || !dist || source < 0) {
     return 0;
   }
   
   int n = g->num_vertices;
 
+  if(n <= 0 || source >= n) {
+    return 0;
+  }
+
   for (int i = 0; i < n; i++) {
     dist[i] = -1;
   }
 
-  int *arr = (int *)malloc((n+1)*sizeof(int));
+  int *arr = (int *)malloc((n)*sizeof(int));
+
+  if(!arr) {
+    return 0;
+  }
   
   int front = 0, end = 0; // idx of the 1st and last elements of the queue, insert happend at end and delete at front
   arr[end] = source;

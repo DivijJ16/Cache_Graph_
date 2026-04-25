@@ -3,17 +3,25 @@
 #include "graph.h"
 
 int bfs_csr(CSRGraph* g, int source, int* dist) {
-  if(!g) {
+  if(!g || !dist || source < 0) {
     return 0;
   }
   
   int n = g->num_vertices;
+
+  if(n <= 0 || source >= n) {
+    return 0;
+  }
     
   for (int i = 0; i < n; i++) {
     dist[i] = -1;
   }
 
-  int *arr = (int *)malloc(n*sizeof(int));
+  int *arr = (int *)malloc((n)*sizeof(int));
+
+  if(!arr) {
+    return 0;
+  }
 
   int front = 0, end = 0;
   arr[end] = source;
@@ -29,11 +37,11 @@ int bfs_csr(CSRGraph* g, int source, int* dist) {
     int end_idx = g->row_ptr[nd + 1];
 
     for (int i = start_idx; i < end_idx; i++) {
-      int child_nd = g->col_idx[i];
+      int next_nd = g->col_idx[i];
             
-      if (dist[child_nd] == -1) {
-        dist[child_nd] = dist[nd] + 1;
-        arr[end] = child_nd;
+      if (dist[next_nd] == -1) {
+        dist[next_nd] = dist[nd] + 1;
+        arr[end] = next_nd;
         end++;
         visited++;
       }
